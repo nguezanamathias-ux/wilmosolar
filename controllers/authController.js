@@ -82,21 +82,24 @@ exports.postRegister = async (req, res) => {
             return res.redirect(req.session.admin ? '/admin/dashboard' : '/user/dashboard');
         }
 
-        req.session.regenerate((err) => {
+        return req.session.regenerate((err) => {
             if (err) {
                 console.error('Session regeneration failed:', err);
+                if (res.headersSent) return;
                 return res.redirect('/login?registered=1&phone=' + encodeURIComponent(phone));
             }
 
             req.session.user = { phone: user.phone, full_name: user.full_name, balance: Number(user.balance) || 0 };
             req.session.save((saveErr) => {
                 if (saveErr) console.error('Session save after registration failed:', saveErr);
+                if (res.headersSent) return;
                 res.redirect('/user/dashboard');
             });
         });
 
     } catch (err) {
         console.error(err);
+        if (res.headersSent) return;
         res.render('auth/register', {
             title: 'Inscription',
             error: 'Erreur lors de l\'inscription',

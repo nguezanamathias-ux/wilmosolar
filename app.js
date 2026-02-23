@@ -98,6 +98,9 @@ app.use((req, res) => {
 // Gestionnaire d'erreurs
 app.use((err, req, res, next) => {
     console.error(err.stack);
+    if (res.headersSent) {
+        return next(err);
+    }
     if (err.code === 'EBADCSRFTOKEN') {
         const devCsrf = process.env.NODE_ENV !== 'production';
         return res.status(403).render('error', { title: 'Erreur CSRF', message: 'Formulaire invalide, veuillez reessayer.', stack: devCsrf ? err.stack : null });
