@@ -18,29 +18,29 @@ exports.startCronJobs = () => {
 
             for (const purchase of rows) {
                 if (purchase.next_payout > purchase.end_date) {
-                    await connection.query('UPDATE purchases SET status =  WHERE id = ', ['expired', purchase.id]);
+                    await connection.query('UPDATE purchases SET status = ? WHERE id = ?', ['expired', purchase.id]);
                     continue;
                 }
 
                 await connection.query(
-                    'UPDATE users SET balance = balance + , total_earnings = total_earnings +  WHERE phone = ',
+                    'UPDATE users SET balance = balance + ?, total_earnings = total_earnings + ? WHERE phone = ?',
                     [purchase.daily_rate, purchase.daily_rate, purchase.user_phone]
                 );
 
                 await connection.query(
                     `INSERT INTO transactions (user_phone, type, amount, description, status)
-                     VALUES (, 'gain_produit', , , 'confirmée')`,
+                     VALUES (?, 'gain_produit', ?, ?, 'confirmee')`,
                     [purchase.user_phone, purchase.daily_rate, `Gain produit #${purchase.id}`]
                 );
 
                 await connection.query(
-                    'UPDATE purchases SET next_payout = DATE_ADD(next_payout, INTERVAL 1 DAY) WHERE id = ',
+                    'UPDATE purchases SET next_payout = DATE_ADD(next_payout, INTERVAL 1 DAY) WHERE id = ?',
                     [purchase.id]
                 );
             }
 
             await connection.commit();
-            console.log(`Cron: ${rows.length} paiements effectués.`);
+            console.log(`Cron: ${rows.length} paiements effectues.`);
         } catch (error) {
             await connection.rollback();
             console.error('Erreur cron paiements:', error);
