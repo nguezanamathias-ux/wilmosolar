@@ -1,0 +1,55 @@
+﻿<%- include('../partials/header') %>
+
+<div class="container">
+    <h1 class="page-title"><img src="/images/icons/chart.svg" alt="Journal de transactions" class="title-icon">Journal de Transactions</h1>
+
+    <div class="transactions-summary">
+        <div class="summary-card"><div class="summary-label">Total recharges</div><div class="summary-value positive"><%= totals.in.toLocaleString() %> FCFA</div></div>
+        <div class="summary-card"><div class="summary-label">Total retraits</div><div class="summary-value negative"><%= totals.out.toLocaleString() %> FCFA</div></div>
+        <div class="summary-card"><div class="summary-label">Solde net</div><div class="summary-value"><%= (totals.in - totals.out).toLocaleString() %> FCFA</div></div>
+    </div>
+
+    <table class="data-table">
+        <thead><tr><th>Type</th><th>Montant</th><th>Statut</th><th>Date</th></tr></thead>
+        <tbody>
+            <% if (transactions.length === 0) { %>
+                <tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Aucune transaction pour le moment</td></tr>
+            <% } else { %>
+                <% transactions.forEach(t => { %>
+                    <tr>
+                        <td>
+                            <% if (t.type === 'gain_produit') { %>Gain produit<% } %>
+                            <% if (t.type === 'achat') { %>Achat<% } %>
+                            <% if (t.type === 'recharge') { %>Recharge<% } %>
+                            <% if (t.type === 'retrait') { %>Retrait<% } %>
+                            <% if (t.type === 'bonus_parrainage') { %>Bonus parrainage<% } %>
+                            <% if (t.type === 'frais') { %>Retrait rejete (remboursement)<% } %>
+                        </td>
+                        <td class="<%= Number(t.amount) < 0 ? 'amount-neg' : 'amount-pos' %>"><%= t.amount.toLocaleString() %> FCFA</td>
+                        <td>
+                            <% const rawStatus = (t.status || 'en_attente').toString().trim().toLowerCase(); %>
+                            <% const status = t.type === 'frais' ? 'echec' : rawStatus; %>
+                            <% const isConfirmed = status === 'confirmee' || status === 'confirmée'; %>
+                            <span class="status-badge <%= isConfirmed ? 'status-confirmed' : '' %> <%= status === 'en_attente' ? 'status-pending' : '' %> <%= status === 'echec' ? 'status-failed' : '' %>">
+                                <% if (status === 'en_attente') { %>En attente<% } %>
+                                <% if (status === 'echec') { %>Echec<% } %>
+                                <% if (isConfirmed) { %>Confirmee<% } %>
+                                <% if (status !== 'en_attente' && status !== 'echec' && !isConfirmed) { %><%= status %><% } %>
+                            </span>
+                        </td>
+                        <td><%= new Date(t.created_at).toLocaleString() %></td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+
+    <div class="transactions-pagination">
+        <a class="btn btn-secondary <%= page <= 1 ? 'disabled' : '' %>" href="<%= page <= 1 ? '#' : `/user/transactions?page=${page - 1}` %>">Precedent</a>
+        <div class="pagination-info">Page <%= page %> / <%= totalPages %></div>
+        <a class="btn btn-secondary <%= page >= totalPages ? 'disabled' : '' %>" href="<%= page >= totalPages ? '#' : `/user/transactions?page=${page + 1}` %>">Suivant</a>
+    </div>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

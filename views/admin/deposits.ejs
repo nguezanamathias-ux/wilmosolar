@@ -1,0 +1,63 @@
+<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2em;">
+        Recharges en attente
+    </h1>
+    <div style="text-align:center; margin-bottom: 18px;">
+        <a href="/admin/deposits/history" class="action-btn btn-info">Voir l'historique</a>
+    </div>
+
+    <% if (success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <% if (deposits.length === 0) { %>
+        <div class="alert alert-info">Aucune demande de recharge en attente.</div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Montant</th>
+                    <th>Methode</th>
+                    <th>Code confirmation</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% deposits.forEach(d => { %>
+                <tr>
+                    <td>#<%= d.id %></td>
+                    <td><%= d.user_phone %></td>
+                    <td><strong><%= Number(d.amount).toLocaleString() %> F</strong></td>
+                    <td>
+                        <% if (d.method === 'orange_money') { %>Orange Money<% } %>
+                        <% if (d.method === 'mobile_money') { %>Mobile Money<% } %>
+                    </td>
+                    <td><%= d.display_transaction_id || d.transaction_id || 'En attente de code' %></td>
+                    <td><%= new Date(d.created_at).toLocaleString() %></td>
+                    <td style="display: flex; gap: 5px;">
+                        <form action="/admin/deposits/<%= d.id %>/confirm" method="POST" style="display:inline;">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="action-btn btn-confirm" onclick="return confirm('Confirmer la recharge de <%= Number(d.amount).toLocaleString() %> F pour <%= d.user_phone %> ')">Confirmer</button>
+                        </form>
+                        <form action="/admin/deposits/<%= d.id %>/reject" method="POST" style="display:inline;">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="action-btn btn-reject" onclick="return confirm('Rejeter cette demande de recharge ')">Rejeter</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+
+<%- include('../partials/admin-footer') %>

@@ -1,0 +1,16 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="auth-container" style="text-align: center;">
+        <h2 class="form-title">Erreur</h2>
+        <p style="margin-bottom: 30px; color: var(--text-secondary);"><%= message %></p>
+        <% if (typeof stack !== 'undefined' && stack) { %>
+            <div style="text-align:left; max-width:900px; margin:0 auto 20px;">
+                <pre style="white-space: pre-wrap; background:#f8f8f8; padding:12px; border-radius:6px; color:#333; overflow:auto;"><%= stack %></pre>
+            </div>
+        <% } %>
+        <a href="/" class="btn btn-primary">Retour a l'accueil</a>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,45 @@
+<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2em;">
+        Historique des achats
+    </h1>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Utilisateur</th>
+                <th>Produit</th>
+                <th>Montant paye</th>
+                <th>Gain journalier</th>
+                <th>Date d'achat</th>
+                <th>Fin du contrat</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% purchases.forEach(p => { %>
+            <tr>
+                <td>#<%= p.id %></td>
+                <td><%= p.user_phone %><br><small><%= p.full_name || '' %></small></td>
+                <td><%= p.product_name %></td>
+                <td><%= Number(p.amount_paid).toLocaleString() %> F</td>
+                <td><%= Number(p.daily_rate).toLocaleString() %> F</td>
+                <td><%= new Date(p.start_date).toLocaleDateString() %></td>
+                <td><%= new Date(p.end_date).toLocaleDateString() %></td>
+                <td>
+                    <% if (p.status === 'active') { %>
+                        <span class="status-badge status-pending">Actif</span>
+                    <% } else { %>
+                        <span class="status-badge status-confirmed">Termine</span>
+                    <% } %>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

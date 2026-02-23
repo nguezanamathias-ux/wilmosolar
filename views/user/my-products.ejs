@@ -1,0 +1,49 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1 class="page-title">
+        <img src="/images/icons/my-products.svg" alt="Mes Produits" class="title-icon">
+        Mes Produits
+    </h1>
+
+    <% if (purchases.length === 0) { %>
+        <div class="alert alert-info">Vous n'avez achete aucun produit pour le moment.</div>
+    <% } else { %>
+        <div class="products-grid">
+            <% purchases.forEach(purchase => { %>
+                <% 
+                    const purchaseDate = new Date(purchase.start_date);
+                    const now = new Date();
+                    const daysPassed = Math.floor((now - purchaseDate) / (1000 * 60 * 60 * 24));
+                    const daysRemaining = Math.max(0, purchase.duration_days - daysPassed);
+                %>
+                <div class="product-card">
+                    <div class="product-image">
+                        <% if (purchase.image_url) { %>
+                            <img src="<%= purchase.image_url %>" alt="<%= purchase.name %>">
+                        <% } else { %>
+                            <img src="/images/logo.png" alt="Produit" class="product-fallback-icon">
+                        <% } %>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-price"><%= purchase.name %></div>
+                        <div class="product-return"><img src="/images/icons/income.svg" alt="" class="label-icon"> Gain journalier: <%= purchase.daily_rate.toLocaleString() %> FCFA</div>
+                        <div class="product-description product-meta-list">
+                            <p><img src="/images/icons/date.svg" alt="" class="label-icon"> Achete le: <%= purchaseDate.toLocaleDateString() %></p>
+                            <p><img src="/images/icons/calendar.svg" alt="" class="label-icon"> Jours restants: <%= daysRemaining %> / <%= purchase.duration_days %></p>
+                            <p><img src="/images/icons/chart.svg" alt="" class="label-icon"> Prochain paiement: aujourd'hui a <%= purchaseDate.getHours() %>h00</p>
+                        </div>
+                        <% if (purchase.status === 'active') { %>
+                            <span class="status-badge status-pending">En cours</span>
+                        <% } else { %>
+                            <span class="status-badge status-confirmed">Contrat termine</span>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,58 @@
+﻿<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px; font-size: 2em;">
+        Historique des retraits
+    </h1>
+    <div style="text-align:center; margin-bottom: 18px;">
+        <a href="/admin/withdrawals" class="action-btn btn-info">Retour aux retraits en attente</a>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:8px; margin-bottom:18px; flex-wrap:wrap;">
+        <a class="action-btn btn-info" href="/admin/withdrawals/history">Tous</a>
+        <a class="action-btn btn-info" href="/admin/withdrawals/history?status=en_attente">En attente</a>
+        <a class="action-btn btn-info" href="/admin/withdrawals/history?status=confirmee">Confirmes</a>
+        <a class="action-btn btn-info" href="/admin/withdrawals/history?status=echec">Echec</a>
+    </div>
+
+    <% if (withdrawals.length === 0) { %>
+        <div class="alert alert-info">Aucun retrait.</div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Montant demande</th>
+                    <th>Frais</th>
+                    <th>Net a payer</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% withdrawals.forEach(w => { %>
+                <tr>
+                    <td>#<%= w.id %></td>
+                    <td><%= w.user_phone %><br><small><%= w.full_name || '' %></small></td>
+                    <td><%= Number(w.amount_requested).toLocaleString() %> F</td>
+                    <td><%= Number(w.fee).toLocaleString() %> F</td>
+                    <td><strong><%= Number(w.amount_net).toLocaleString() %> F</strong></td>
+                    <td>
+                        <span class="status-badge 
+                            <%= (w.status === 'confirmee' || w.status === 'confirmée') ? 'status-confirmed' : '' %>
+                            <%= w.status === 'en_attente' ? 'status-pending' : '' %>
+                            <%= w.status === 'echec' ? 'status-failed' : '' %>">
+                            <%= w.status %>
+                        </span>
+                    </td>
+                    <td><%= new Date(w.created_at).toLocaleString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+
+<%- include('../partials/admin-footer') %>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>Admin Dashboard - Wilmosolar Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Ajustements spécifiques à l'admin */
+        .admin-badge {
+            background: var(--danger);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        .admin-container {
+            max-width: 1600px;
+        }
+        .action-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-confirm {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        .btn-confirm:hover {
+            background: var(--success);
+            color: var(--dark-bg);
+        }
+        .btn-reject {
+            background: rgba(255, 51, 102, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        .btn-reject:hover {
+            background: var(--danger);
+            color: white;
+        }
+        .btn-toggle {
+            background: rgba(255, 107, 0, 0.2);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        .btn-toggle:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container admin-container">
+            <div class="logo">⚡ WILMOSOLAR <span class="admin-badge">ADMIN</span></div>
+            <div class="subtitle">Panneau d'administration</div>
+        </div>
+    </div>
+<!-- Barre de navigation admin (horizontale, sous le header) -->
+<div style="background: rgba(20, 27, 61, 0.9); border-bottom: 2px solid var(--primary-color); padding: 15px 0; margin-bottom: 30px;">
+    <div class="container admin-container">
+        <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+            <a href="/admin/dashboard" class="nav-btn active" style="color: white; text-decoration: none; padding: 8px 20px;">
+                📊 Tableau de bord
+            </a>
+            <a href="/admin/users" class="nav-btn " style="color: white; text-decoration: none; padding: 8px 20px;">
+                👥 Utilisateurs
+            </a>
+            <a href="/admin/withdrawals" class="nav-btn " style="color: white; text-decoration: none; padding: 8px 20px;">
+                💵 Retraits
+            </a>
+            <a href="/admin/deposits" class="nav-btn " style="color: white; text-decoration: none; padding: 8px 20px;">
+                💳 Recharges
+            </a>
+            <a href="/admin/purchases" class="nav-btn " style="color: white; text-decoration: none; padding: 8px 20px;">
+                🛒 Achats
+            </a>
+            <a href="/admin/logout" class="nav-btn" style="color: var(--danger); text-decoration: none; padding: 8px 20px;" onclick="return confirm('Déconnexion ');">
+                🚪 Déconnexion
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2em;">
+        📊 Tableau de bord
+    </h1>
+
+    
+    
+
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-label">👥 Utilisateurs</div>
+            <div class="stat-value">2</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">⏳ Retraits en attente</div>
+            <div class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">⏳ Recharges en attente</div>
+            <div class="stat-value">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">💰 Volume total</div>
+            <div class="stat-value">-</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 50px; text-align: center; color: var(--text-secondary);">
+        <p>Bienvenue dans l'espace d'administration Wilmosolar.</p>
+        <p>Utilisez le menu ci-dessus pour gérer les utilisateurs, les retraits et les recharges.</p>
+    </div>
+</div>
+
+    <script src="/js/main.js"></script>
+    <script>
+        // Activation des boutons de confirmation avec CSRF
+        document.querySelectorAll('.confirm-action').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!confirm('Confirmez-vous cette action ')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

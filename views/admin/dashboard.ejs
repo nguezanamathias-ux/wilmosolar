@@ -1,0 +1,41 @@
+<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2em;">
+        Tableau de bord
+    </h1>
+
+    <% if (success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-label">Utilisateurs</div>
+            <div class="stat-value"><%= users %></div>
+        </div>
+        <a href="/admin/withdrawals" class="stat-card" style="text-decoration:none;color:inherit;">
+            <div class="stat-label">Retraits en attente</div>
+            <div class="stat-value"><%= pendingWithdrawals %></div>
+        </a>
+        <a href="/admin/deposits" class="stat-card" style="text-decoration:none;color:inherit;">
+            <div class="stat-label">Recharges en attente</div>
+            <div class="stat-value"><%= pendingDeposits %></div>
+        </a>
+        <a href="/admin/volumes" class="stat-card" style="text-decoration:none;color:inherit;">
+            <div class="stat-label">Volume total</div>
+            <div class="stat-value"><%= Number(totalVolume || 0).toLocaleString() %> F</div>
+        </a>
+    </div>
+
+    <div style="margin-top: 50px; text-align: center; color: var(--text-secondary);">
+        <p>Bienvenue dans l'espace d'administration Wilmosolar.</p>
+        <p>Utilisez le menu ci-dessus pour gerer les utilisateurs, les retraits et les recharges.</p>
+    </div>
+</div>
+
+<%- include('../partials/admin-footer') %>

@@ -1,0 +1,80 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1 class="page-title">
+        <img src="/images/icons/account.svg" alt="Mon compte" class="title-icon">
+        Mon Compte
+    </h1>
+
+    <div class="page-intro">
+        <h3>Votre centre de gestion personnel</h3>
+        <p>Consultez vos informations, votre progression et vos indicateurs financiers en un seul endroit. Cet espace vous aide a prendre de meilleures decisions pour evoluer vers des machines plus performantes et des revenus plus solides.</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/wallet.svg" alt="" class="label-icon"> Solde Total</div>
+            <div class="stat-value"><%= user.balance.toLocaleString() %> FCFA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/income.svg" alt="" class="label-icon"> Revenus Produits</div>
+            <div class="stat-value"><%= user.total_earnings.toLocaleString() %> FCFA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/commission.svg" alt="" class="label-icon"> Commissions</div>
+            <div class="stat-value"><%= user.total_commissions.toLocaleString() %> FCFA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/package.svg" alt="" class="label-icon"> Produits Achetes</div>
+            <div class="stat-value"><%= productsCount %></div>
+        </div>
+    </div>
+
+    <div class="user-info-card">
+        <h3 style="color: var(--primary-color); margin-bottom: 20px;">Informations Personnelles</h3>
+        <div class="user-info-row">
+            <span class="user-info-label"><img src="/images/icons/phone.svg" alt="" class="label-icon"> Telephone</span>
+            <span class="user-info-value"><%= user.phone %></span>
+        </div>
+        <div class="user-info-row">
+            <span class="user-info-label"><img src="/images/icons/user.svg" alt="" class="label-icon"> Nom complet</span>
+            <span class="user-info-value"><%= user.full_name || 'Non renseigne' %></span>
+        </div>
+        <div class="user-info-row">
+            <span class="user-info-label"><img src="/images/icons/calendar.svg" alt="" class="label-icon"> Membre depuis</span>
+            <span class="user-info-value"><%= new Date(user.created_at).toLocaleDateString() %></span>
+        </div>
+        <div class="user-info-row">
+            <span class="user-info-label"><img src="/images/icons/ticket.svg" alt="" class="label-icon"> Code Parrain</span>
+            <span class="user-info-value"><%= user.referral_code %></span>
+        </div>
+    </div>
+
+    <div class="action-grid">
+        <a class="action-card" href="/user/team">
+            <div class="action-icon"><img src="/images/icons/team.svg" alt="Equipe"></div>
+            <div class="action-title">Equipe</div>
+        </a>
+        <a class="action-card" href="/user/referrals-income">
+            <div class="action-icon"><img src="/images/icons/income.svg" alt="Revenus"></div>
+            <div class="action-title">Revenus</div>
+        </a>
+        <a class="action-card" href="#" data-modal="modal-recharge">
+            <div class="action-icon"><img src="/images/recharge.png" alt="Recharger"></div>
+            <div class="action-title">Recharger</div>
+        </a>
+        <a class="action-card" href="#" data-modal="modal-retrait">
+            <div class="action-icon"><img src="/images/retrait.png" alt="Retrait"></div>
+            <div class="action-title">Retrait</div>
+        </a>
+        <a class="action-card" href="/logout">
+            <div class="action-icon"><img src="/images/icons/signout.svg" alt="Deconnexion"></div>
+            <div class="action-title">Deconnexion</div>
+        </a>
+    </div>
+</div>
+
+<%- include('../partials/deposit-modal') %>
+<%- include('../partials/withdrawal-modal') %>
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

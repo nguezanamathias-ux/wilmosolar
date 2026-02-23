@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <% const formatFcfa = (value) => Math.round(Number(value || 0)).toLocaleString('fr-FR'); %>
+
+    <section class="home-hero">
+        <h1 class="home-hero-title">WILMOSOLAR <span>SHOP</span></h1>
+        <p class="home-hero-subtitle">Excellence en Solutions Electriques &amp; Energie Solaire depuis 2013</p>
+        <p class="home-hero-proof">Entreprise fondee en 2013 • Presence Cameroun &amp; Togo • Marques certifiees</p>
+        <div class="home-hero-actions">
+            <a class="home-hero-btn primary" href="/user/products">Voir les produits</a>
+            <a class="home-hero-btn secondary" href="/user/company-profile">Profil de la societe</a>
+            <a class="home-hero-btn secondary" href="/user/team">Mon equipe</a>
+        </div>
+    </section>
+
+    <section class="home-kpi-grid">
+        <article class="home-kpi-card kpi-solar">
+            <div class="home-kpi-number">2013</div>
+            <div class="home-kpi-label">ANNEE DE FONDATION</div>
+            <p>Plus d'une decennie d'experience dans l'ingenierie electrique et solaire.</p>
+        </article>
+        <article class="home-kpi-card kpi-blue">
+            <div class="home-kpi-number">6+</div>
+            <div class="home-kpi-label">MARQUES PREMIUM</div>
+            <p>Distributeur officiel de leaders mondiaux comme Victron et Panasonic.</p>
+        </article>
+        <article class="home-kpi-card kpi-orange">
+            <div class="home-kpi-number">2</div>
+            <div class="home-kpi-label">MARCHES PRINCIPAUX</div>
+            <p>Presence forte en ligne et physique au Togo via le Groupe Wilmosolar.</p>
+        </article>
+    </section>
+
+    <% if (success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <section class="home-why-grid">
+        <article class="home-why-card">
+            <h3>Fiabilite</h3>
+            <p>Une plateforme stable avec suivi clair de vos operations et de vos contrats.</p>
+        </article>
+        <article class="home-why-card">
+            <h3>Rendement</h3>
+            <p>Des kits adaptes a tous les niveaux avec possibilite de monter en gamme.</p>
+        </article>
+        <article class="home-why-card">
+            <h3>Support</h3>
+            <p>Une equipe disponible pour vous accompagner sur les depots, achats et retraits.</p>
+        </article>
+    </section>
+
+    <div class="dashboard-grid home-stat-grid">
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/wallet.svg" alt="" class="label-icon"> Solde Total</div>
+            <div class="stat-value"><%= formatFcfa(user.balance) %> FCFA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/income.svg" alt="" class="label-icon"> Revenus Produits</div>
+            <div class="stat-value"><%= formatFcfa(user.total_earnings) %> FCFA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/commission.svg" alt="" class="label-icon"> Commissions</div>
+            <div class="stat-value"><%= formatFcfa(user.total_commissions) %> FCFA</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label"><img src="/images/icons/package.svg" alt="" class="label-icon"> Produits Achetes</div>
+            <div class="stat-value stat-value-count"><%= productsCount %></div>
+        </div>
+    </div>
+
+    <div class="action-grid home-action-grid">
+        <a class="action-card" href="/user/company-profile">
+            <div class="action-icon"><img src="/images/icons/company.svg" alt="Profil de la societe"></div>
+            <div class="action-title">Profil de la societe</div>
+            <div class="action-subtitle">Decouvrir l'entreprise</div>
+        </a>
+        <a class="action-card" href="#" data-modal="modal-recharge">
+            <div class="action-icon"><img src="/images/icons/recharge-action.svg" alt="Recharger"></div>
+            <div class="action-title">Recharger</div>
+            <div class="action-subtitle">Ajouter du solde</div>
+        </a>
+        <a class="action-card" href="#" data-modal="modal-retrait">
+            <div class="action-icon"><img src="/images/icons/withdraw-action.svg" alt="Retrait"></div>
+            <div class="action-title">Retrait</div>
+            <div class="action-subtitle">Demander un paiement</div>
+        </a>
+        <a class="action-card" href="/user/support">
+            <div class="action-icon"><img src="/images/icons/support-action.svg" alt="Service Client"></div>
+            <div class="action-title">Service Client</div>
+            <div class="action-subtitle">Assistance rapide</div>
+        </a>
+        <a class="action-card" href="/user/transactions">
+            <div class="action-icon"><img src="/images/icons/transactions-action.svg" alt="Transactions"></div>
+            <div class="action-title">Transactions</div>
+            <div class="action-subtitle">Voir l'historique</div>
+        </a>
+    </div>
+</div>
+
+<%- include('../partials/deposit-modal') %>
+<%- include('../partials/withdrawal-modal') %>
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

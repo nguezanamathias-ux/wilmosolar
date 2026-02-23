@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1 class="page-title">
+        <img src="/images/icons/income.svg" alt="Revenus des invites" class="title-icon">
+        Revenus des Invites
+    </h1>
+
+    <div class="stat-card" style="max-width: 480px; margin: 30px auto;">
+        <div class="stat-label"><img src="/images/icons/commission.svg" alt="" class="label-icon"> Total des Commissions</div>
+        <div class="stat-value"><%= totalCommissions.toLocaleString() %> FCFA</div>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Invite</th>
+                <th>Produit Achete</th>
+                <th>Commission (30%)</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (referralsWithPurchase.length === 0) { %>
+                <tr><td colspan="4" style="text-align: center; color: var(--text-secondary);">Aucune commission pour le moment</td></tr>
+            <% } else { %>
+                <% referralsWithPurchase.forEach(item => { %>
+                    <tr>
+                        <td><%= item.phone %></td>
+                        <td>Produit #<%= item.product_id %></td>
+                        <td><%= item.bonus.toLocaleString() %> FCFA</td>
+                        <td><%= new Date(item.purchase_date).toLocaleDateString() %></td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

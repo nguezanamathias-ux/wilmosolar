@@ -1,0 +1,42 @@
+﻿<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px; font-size: 2em;">
+        Filleuls de <%= user.phone %>
+    </h1>
+    <p style="text-align: center; color: var(--text-secondary); margin-bottom: 24px;">
+        Code parrain: <strong><%= user.referral_code %></strong> <%= user.full_name ? ' - ' + user.full_name : '' %>
+    </p>
+
+    <% if (referrals.length === 0) { %>
+        <div class="alert alert-info">Aucun filleul pour le moment.</div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Telephone</th>
+                    <th>Nom</th>
+                    <th>Inscription</th>
+                    <th>Bonus gagne</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% referrals.forEach(r => { %>
+                    <tr>
+                        <td><%= r.referred_phone %></td>
+                        <td><%= r.full_name || '-' %></td>
+                        <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+                        <td><%= Number(r.bonus_earned || 0).toLocaleString() %> F</td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <div style="margin-top: 20px; text-align: center;">
+        <a href="/admin/users" class="action-btn btn-info">Retour aux utilisateurs</a>
+    </div>
+</div>
+
+<%- include('../partials/admin-footer') %>

@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title><%= title %> - Wilmosolar Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="<%= typeof pageClass !== 'undefined' ? pageClass : '' %>">
+    <div class="header <%= typeof compactHeader !== 'undefined' && compactHeader ? 'header-compact' : '' %>">
+        <div class="container">
+            <div class="logo-container">
+                <img src="/images/logo.png" alt="Wilmosolar" class="logo-img">
+                <div>
+                    <div class="logo">WILMOSOLAR</div>
+                    <div class="subtitle">Solutions Energetiques Intelligentes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <% if (typeof hideAbout === 'undefined' || hideAbout === false) { %>
+    <div class="container">
+        <div class="footer-info" style="margin-top: 20px; margin-bottom: 0;">
+            <% if (typeof currentPage !== 'undefined' && currentPage === 'my-products') { %>
+                <h3>Passez au niveau superieur avec nos machines premium</h3>
+                <p>Les modeles haut de gamme offrent un rendement journalier plus eleve, une meilleure stabilite et une performance durable.</p>
+                <p style="margin-top: 12px; color: var(--accent-blue); font-weight: 600;">Conseil: montez progressivement vers les machines les plus puissantes.</p>
+            <% } else { %>
+                <h3>A propos de Wilmosolar Shop</h3>
+                <p>Fondee en 2013, Wilmosolar fournit des solutions electriques de haute qualite au Cameroun et au Togo.</p>
+            <% } %>
+        </div>
+    </div>
+    <% } %>

@@ -1,0 +1,13 @@
+    <script src="/js/main.js"></script>
+    <script>
+        // Activation des boutons de confirmation avec CSRF
+        document.querySelectorAll('.confirm-action').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!confirm('Confirmez-vous cette action ')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

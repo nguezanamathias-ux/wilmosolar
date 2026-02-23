@@ -1,0 +1,42 @@
+<div id="modal-recharge" class="modal">
+    <div class="modal-content" style="position: relative;">
+        <button class="close-modal" onclick="closeModal('modal-recharge')">&times;</button>
+        <h2 class="modal-header"><img src="/images/icons/wallet.svg" alt="" class="label-icon"> Recharger mon Compte</h2>
+
+        <div class="modal-instructions">
+            <ol style="margin: 15px 0; padding-left: 20px;">
+                <li>Choisissez votre methode de paiement : <strong>Orange Money</strong> ou <strong>Mobile Money</strong></li>
+                <li>Saisissez le montant (minimum <strong>500 FCFA</strong>)</li>
+                <li>Saisissez votre numero de telephone</li>
+                <li>Cliquez sur <strong>Confirmer la Recharge</strong></li>
+                <li>L'administrateur verifiera et confirmera votre demande</li>
+                <li>Votre compte sera credite instantanement</li>
+            </ol>
+            <p style="margin-top: 15px; color: var(--danger);"><strong>Important :</strong> Ne jamais envoyer d'argent sans avoir cree une demande sur le site. Le montant doit correspondre exactement.</p>
+        </div>
+
+        <div class="payment-methods">
+            <div class="payment-method" data-method="orange_money">
+                <img src="/images/orange-money.png" alt="Orange Money" class="payment-method-logo">
+                <div class="payment-method-name">Orange Money</div>
+            </div>
+            <div class="payment-method" data-method="mobile_money">
+                <img src="/images/momo.png" alt="Mobile Money" class="payment-method-logo">
+                <div class="payment-method-name">Mobile Money</div>
+            </div>
+        </div>
+
+        <form id="form-recharge" action="/user/deposit" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-group">
+                <label class="form-label">Montant (FCFA) - minimum 500</label>
+                <input type="number" class="form-input" name="amount" min="500" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Numero de paiement</label>
+                <input type="tel" class="form-input" name="payment_phone" placeholder="+237 6XX XXX XXX" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmer la Recharge</button>
+        </form>
+    </div>
+</div>

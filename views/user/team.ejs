@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<div class="container">
+    <h1 class="page-title">
+        <img src="/images/icons/team.svg" alt="Mon equipe" class="title-icon">
+        Mon Equipe
+    </h1>
+
+    <div class="footer-info" style="margin-top: 20px; margin-bottom: 30px; background: rgba(34, 211, 238, 0.06); border: 1px solid var(--accent-blue); border-radius: 10px; padding: 20px;">
+        <h3 style="color: var(--accent-blue); display: flex; align-items: center; gap: 10px;"><img src="/images/icons/wallet.svg" alt="Parrainage" class="label-icon"> Systeme de Parrainage - Gagnez en Partageant</h3>
+        <p style="font-size: 15px; line-height: 1.6; color: var(--text-secondary);">
+            Partagez votre lien de parrainage avec vos proches et votre reseau professionnel pour construire votre equipe et augmenter vos revenus.
+        </p>
+        <ul class="pro-list">
+            <li>Chaque personne inscrite via votre lien rejoint votre reseau</li>
+            <li>Au premier depot d'un filleul, vous recevez 30% de commission</li>
+            <li>Plus votre equipe grandit, plus vos revenus augmentent</li>
+            <li>Aucune limite de croissance</li>
+        </ul>
+    </div>
+
+    <div class="referral-link-container">
+        <h3 style="color: var(--accent-blue); margin-bottom: 15px; display: flex; align-items: center; gap: 10px;"><img src="/images/icons/link.svg" alt="Lien" class="label-icon"> Votre Lien de Parrainage</h3>
+        <input type="text" id="referral-link" class="referral-link" value="<%= referralLink %>" readonly>
+        <button class="btn btn-copy" id="copy-btn">Copier le Lien</button>
+    </div>
+
+    <h2 class="section-title" style="margin: 30px 0;">Membres de Votre Equipe</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Telephone</th>
+                <th>Date d'inscription</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (referrals.length === 0) { %>
+                <tr><td colspan="3" style="text-align: center; color: var(--text-secondary);">Aucun membre pour le moment</td></tr>
+            <% } else { %>
+                <% referrals.forEach(ref => { %>
+                    <tr>
+                        <td><%= ref.referred_phone %></td>
+                        <td><%= new Date(ref.created_at).toLocaleDateString() %></td>
+                        <td><span class="status-badge status-confirmed">Actif</span></td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

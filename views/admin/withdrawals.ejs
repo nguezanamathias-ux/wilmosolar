@@ -1,0 +1,60 @@
+<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2em;">
+        Retraits en attente
+    </h1>
+    <div style="text-align:center; margin-bottom: 18px;">
+        <a href="/admin/withdrawals/history" class="action-btn btn-info">Voir l'historique</a>
+    </div>
+
+    <% if (success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+        <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <% if (withdrawals.length === 0) { %>
+        <div class="alert alert-info">Aucune demande de retrait en attente.</div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Montant demande</th>
+                    <th>Frais (15%)</th>
+                    <th>Net a payer</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% withdrawals.forEach(w => { %>
+                <tr>
+                    <td>#<%= w.id %></td>
+                    <td><%= w.user_phone %><br><small><%= w.full_name || '' %></small></td>
+                    <td><%= Number(w.amount_requested).toLocaleString() %> F</td>
+                    <td><%= Number(w.fee).toLocaleString() %> F</td>
+                    <td><strong><%= Number(w.amount_net).toLocaleString() %> F</strong></td>
+                    <td><%= new Date(w.created_at).toLocaleString() %></td>
+                    <td style="display: flex; gap: 5px;">
+                        <form action="/admin/withdrawals/<%= w.id %>/confirm" method="POST" style="display:inline;">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="action-btn btn-confirm" onclick="return confirm('Confirmer le paiement de <%= w.amount_net.toLocaleString() %> F a <%= w.user_phone %> ')">Confirmer</button>
+                        </form>
+                        <form action="/admin/withdrawals/<%= w.id %>/reject" method="POST" style="display:inline;">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="action-btn btn-reject" onclick="return confirm('Rejeter et rembourser <%= w.amount_requested.toLocaleString() %> F ')">Rejeter</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+
+<%- include('../partials/admin-footer') %>

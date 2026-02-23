@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>Connexion - Wilmosolar Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo">⚡ WILMOSOLAR</div>
+            <div class="subtitle">Solutions Énergétiques Intelligentes</div>
+        </div>
+    </div>
+
+    <!-- Bannière description Wilmosolar -->
+    <div class="container">
+        <div class="footer-info" style="margin-top: 20px; margin-bottom: 0;">
+            <h3>À propos de Wilmosolar Shop</h3>
+            <p>Fondée en 2013, Wilmosolar fournit des solutions électriques de haute qualité dans divers secteurs du marché. L'entreprise fait partie du groupe Wilmosolar, qui opère également au Togo. Le magasin propose une large gamme de produits de marques réputées telles que Victron Energy, Panasonic, Canadian Solar, Hoppecke, et Ultracell, ainsi que sa propre marque WMS. En plus de la vente, Wilmosolar propose des services d'ingénierie, d'installation et de conseil pour aider les clients à concevoir la solution énergétique parfaite.</p>
+        </div>
+    </div>
+
+<div class="container">
+    <div class="auth-container">
+        <h2 class="form-title">🔓 Connexion</h2>
+        
+        <form action="/login" method="POST">
+            <input type="hidden" name="_csrf" value="Wky46itf-feMlOFeA35J61KHkBoRtYV32RWA">
+            <div class="form-group">
+                <label class="form-label">� Identifiant</label>
+                <input type="text" class="form-input" name="phone" placeholder="Numéro ou identifiant" value="" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">🔐 Mot de Passe</label>
+                <input type="password" class="form-input" name="password" placeholder="Votre mot de passe" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Se connecter</button>
+        </form>
+        <div class="link-text">
+            Pas encore de compte  <a href="/register">S'inscrire</a>
+        </div>
+    </div>
+</div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

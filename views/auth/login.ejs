@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+
+<div class="container auth-layout">
+    <div class="auth-shell">
+        <div class="auth-aside">
+            <span class="auth-badge">Plateforme securisee</span>
+            <h2>Accedez a votre espace energie</h2>
+            <p>Centralisez vos gains, vos operations et la performance de vos investissements sur Wilmosolar.</p>
+            <div class="auth-highlights">
+                <div class="auth-highlight">Suivi clair et en temps reel</div>
+                <div class="auth-highlight">Historique des operations détaillé</div>
+                <div class="auth-highlight">Tableau de bord concis et fiable</div>
+            </div>
+            <div class="auth-footnote">
+                Besoin d'aide ? Contactez l'equipe support depuis votre espace une fois connecté.
+            </div>
+        </div>
+        <div class="auth-card auth-container">
+            <h2 class="form-title">Connexion</h2>
+            <p class="form-subtitle">Accedez a votre espace Wilmosolar pour suivre vos gains et vos operations.</p>
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+            <% if (success) { %>
+                <div class="alert alert-success"><%= success %></div>
+            <% } %>
+            <% if (typeof autoBlocked !== 'undefined' && autoBlocked) { %>
+                <div class="alert alert-info">Votre compte a ete cree mais une session existante empeche la connexion automatique sur ce navigateur. Veuillez vous connecter manuellement ou utilisez un autre appareil pour vous connecter avec ce nouveau compte.</div>
+            <% } %>
+            <form action="/login" method="POST" id="login-form" class="auth-form">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <div class="form-group">
+                    <label class="form-label">Identifiant</label>
+                    <input type="text" class="form-input" name="phone" placeholder="Ex: 699123456" value="<%= body.phone || '' %>" autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mot de Passe</label>
+                    <input type="password" class="form-input" id="login-password" name="password" placeholder="Entrez votre mot de passe" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" id="login-submit-btn" data-loading-text="Connexion....">Se connecter</button>
+                <div class="form-helper">Connexion protegee par des controles de securite internes.</div>
+                <div class="auth-trust-block">
+                    <div>Derniere connexion securisee</div>
+                    <div>Support 24/7</div>
+                </div>
+            </form>
+            <div class="link-text">
+                Pas encore de compte ? <a href="/register">S'inscrire</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var form = document.getElementById('login-form');
+        var submitBtn = document.getElementById('login-submit-btn');
+        if (!form || !submitBtn) return;
+
+        form.addEventListener('submit', function () {
+            submitBtn.disabled = true;
+            submitBtn.textContent = submitBtn.getAttribute('data-loading-text') || 'Connexion...';
+        });
+    })();
+</script>
+
+<%- include('../partials/footer') %>

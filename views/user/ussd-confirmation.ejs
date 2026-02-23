@@ -1,0 +1,48 @@
+﻿<%- include('../partials/header') %>
+
+<div class="container">
+    <div class="ussd-confirmation-container">
+        <h1 class="page-title" style="justify-content: center; margin-bottom: 20px;">
+            <img src="/images/icons/wallet.svg" alt="Recharge" class="title-icon">
+            Finaliser votre Recharge
+        </h1>
+
+        <div class="alert alert-success" style="margin-bottom: 25px;">
+            Votre demande de recharge de <strong><%= amount.toLocaleString() %> FCFA</strong> a ete creee avec succes.
+        </div>
+
+        <h3 class="section-title">Etape 1 : Composez le code sur votre telephone</h3>
+
+        <div class="ussd-code-box">
+            <p style="color: var(--text-secondary); margin-bottom: 10px;">Appelez ou tapez ce code :</p>
+            <div class="ussd-code"><%= ussdCode %></div>
+            <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.85em;">Puis saisissez le montant : <strong><%= amount %></strong> FCFA</p>
+        </div>
+
+        <h3 class="section-title">Etape 2 : Entrez votre code de confirmation</h3>
+
+        <form action="/user/ussd-confirm" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="deposit_id" value="<%= depositId %>">
+            <input type="hidden" name="amount" value="<%= amount %>">
+            <input type="hidden" name="method" value="<%= method %>">
+            <input type="hidden" name="payment_phone" value="<%= paymentPhone %>">
+
+            <div class="form-group transaction-id-field">
+                <label class="form-label"><img src="/images/icons/ticket.svg" alt="" class="label-icon"> Numero/Code de Transaction</label>
+                <input type="text" class="form-input" name="transaction_code" placeholder="Entrez le code recu par SMS" required style="font-size: 1.1em; text-align: center; letter-spacing: 2px;">
+                <p style="color: var(--text-secondary); font-size: 0.85em; margin-top: 10px;">
+                    Ce code vous sera envoye par SMS apres votre transaction <%= method === 'orange_money' ? 'Orange Money' : 'Mobile Money' %>
+                </p>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                <a href="/user/dashboard" class="btn btn-secondary" style="flex: 1; text-align: center; text-decoration: none;">Annuler</a>
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Valider la Transaction</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,61 @@
+﻿<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px; font-size: 2em;">
+        Historique des recharges
+    </h1>
+    <div style="text-align:center; margin-bottom: 18px;">
+        <a href="/admin/deposits" class="action-btn btn-info">Retour aux recharges en attente</a>
+    </div>
+
+    <div style="display:flex; justify-content:center; gap:8px; margin-bottom:18px; flex-wrap:wrap;">
+        <a class="action-btn btn-info" href="/admin/deposits/history">Tous</a>
+        <a class="action-btn btn-info" href="/admin/deposits/history?status=en_attente">En attente</a>
+        <a class="action-btn btn-info" href="/admin/deposits/history?status=confirmee">Confirmees</a>
+        <a class="action-btn btn-info" href="/admin/deposits/history?status=echec">Echec</a>
+    </div>
+
+    <% if (deposits.length === 0) { %>
+        <div class="alert alert-info">Aucune recharge.</div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Utilisateur</th>
+                    <th>Montant</th>
+                    <th>Methode</th>
+                    <th>Code confirmation</th>
+                    <th>Statut</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% deposits.forEach(d => { %>
+                <tr>
+                    <td>#<%= d.id %></td>
+                    <td><%= d.user_phone %></td>
+                    <td><strong><%= Number(d.amount).toLocaleString() %> F</strong></td>
+                    <td>
+                        <% if (d.method === 'orange_money') { %>Orange Money<% } %>
+                        <% if (d.method === 'mobile_money') { %>Mobile Money<% } %>
+                    </td>
+                    <td><%= d.display_transaction_id || d.transaction_id || 'En attente de code' %></td>
+                    <td>
+                        <span class="status-badge 
+                            <%= (d.status === 'confirmee' || d.status === 'confirmée') ? 'status-confirmed' : '' %>
+                            <%= d.status === 'en_attente' ? 'status-pending' : '' %>
+                            <%= d.status === 'echec' ? 'status-failed' : '' %>">
+                            <%= d.status %>
+                        </span>
+                    </td>
+                    <td><%= new Date(d.created_at).toLocaleString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</div>
+
+<%- include('../partials/admin-footer') %>

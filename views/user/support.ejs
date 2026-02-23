@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+
+<div class="container support-page">
+    <div class="support-card">
+        <div class="support-hero">
+            <img src="/images/service-client.png" alt="Service client" class="support-icon">
+            <div>
+                <h2 class="support-title">Service Client</h2>
+                <p class="support-subtitle">Une equipe disponible pour vous accompagner sur vos achats, depots et retraits.</p>
+            </div>
+        </div>
+        <div class="support-info">
+            <div class="support-pill">Reponse rapide</div>
+            <div class="support-pill">Support Telegram officiel</div>
+            <div class="support-pill">Disponibilite: lun-ven 08h-18h</div>
+        </div>
+        <div class="support-body">
+            <p>Vous allez etre redirige vers notre compte Telegram de support. Pensez a preparer votre identifiant et le detail de votre demande pour un traitement rapide.</p>
+        </div>
+        <div class="support-actions">
+            <a href="<%= telegramLink %>" target="_blank" class="btn btn-primary">Demarrer la discussion</a>
+            <a href="https://t.me/wilmosolar" target="_blank" class="btn btn-secondary">Rejoindre canal telegramme</a>
+            <a href="/user/company-profile" class="btn btn-secondary">Profil de la societe</a>
+        </div>
+        <div class="support-back">
+            <a href="/user/dashboard">Retour au tableau de bord</a>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/bottom-nav') %>
+<%- include('../partials/footer') %>

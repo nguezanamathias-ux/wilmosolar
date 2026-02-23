@@ -1,0 +1,54 @@
+<%- include('../partials/admin-header') %>
+<%- include('../partials/admin-nav') %>
+
+<div class="container admin-container">
+    <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2em;">
+        Gestion des utilisateurs
+    </h1>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Telephone</th>
+                <th>Nom</th>
+                <th>Solde</th>
+                <th>Revenus</th>
+                <th>Commissions</th>
+                <th>Code parrain</th>
+                <th>Inscription</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.phone %></td>
+                <td><%= user.full_name || '-' %></td>
+                <td><%= Number(user.balance).toLocaleString() %> F</td>
+                <td><%= Number(user.total_earnings).toLocaleString() %> F</td>
+                <td><%= Number(user.total_commissions).toLocaleString() %> F</td>
+                <td><code><%= user.referral_code %></code></td>
+                <td><%= new Date(user.created_at).toLocaleDateString() %></td>
+                <td>
+                    <% if (user.is_active) { %>
+                        <span class="status-badge status-confirmed">Actif</span>
+                    <% } else { %>
+                        <span class="status-badge status-failed">Inactif</span>
+                    <% } %>
+                </td>
+                <td style="display: flex; gap: 5px;">
+                    <a href="/admin/users/<%= user.phone %>/referrals" class="action-btn btn-info">Filleuls</a>
+                    <% if (user.is_active) { %>
+                        <a href="/admin/users/<%= user.phone %>/toggle?action=deactivate" class="action-btn btn-toggle" onclick="return confirm('Desactiver ce compte ?')">Desactiver</a>
+                    <% } else { %>
+                        <a href="/admin/users/<%= user.phone %>/toggle?action=activate" class="action-btn btn-confirm" onclick="return confirm('Reactiver ce compte ?')">Activer</a>
+                    <% } %>
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/admin-footer') %>

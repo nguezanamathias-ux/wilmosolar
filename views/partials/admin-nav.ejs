@@ -1,0 +1,13 @@
+﻿<!-- Barre de navigation admin (horizontale, sous le header) -->
+<div style="background: rgba(20, 27, 61, 0.9); border-bottom: 2px solid var(--primary-color); padding: 15px 0; margin-bottom: 30px;">
+    <div class="container admin-container">
+        <div style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+            <a href="/admin/dashboard" class="nav-btn <%= currentPage === 'dashboard' ? 'active' : '' %>" style="color: white; text-decoration: none; padding: 8px 20px;">Tableau de bord</a>
+            <a href="/admin/users" class="nav-btn <%= currentPage === 'users' ? 'active' : '' %>" style="color: white; text-decoration: none; padding: 8px 20px;">Utilisateurs</a>
+            <a href="/admin/withdrawals" class="nav-btn <%= currentPage === 'withdrawals' ? 'active' : '' %>" style="color: white; text-decoration: none; padding: 8px 20px;">Retraits</a>
+            <a href="/admin/deposits" class="nav-btn <%= currentPage === 'deposits' ? 'active' : '' %>" style="color: white; text-decoration: none; padding: 8px 20px;">Recharges</a>
+            <a href="/admin/purchases" class="nav-btn <%= currentPage === 'purchases' ? 'active' : '' %>" style="color: white; text-decoration: none; padding: 8px 20px;">Achats</a>
+            <a href="/admin/logout" class="nav-btn" style="color: var(--danger); text-decoration: none; padding: 8px 20px;" onclick="return confirm('Deconnexion ?');">Deconnexion</a>
+        </div>
+    </div>
+</div>

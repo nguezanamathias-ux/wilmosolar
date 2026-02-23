@@ -1,0 +1,33 @@
+﻿<div id="modal-retrait" class="modal">
+    <div class="modal-content" style="position: relative;">
+        <button class="close-modal" onclick="closeModal('modal-retrait')">&times;</button>
+        <h2 class="modal-header"><img src="/images/retrait.png" alt="" class="label-icon"> Demander un Retrait</h2>
+
+        <div class="withdrawal-policy" aria-live="polite">
+            <div class="withdrawal-policy-row"><span class="withdrawal-chip-label">Statut</span><span id="withdrawal-status" class="withdrawal-status-chip">Verification...</span></div>
+            <div class="withdrawal-policy-row"><span><strong>Fenetre de traitement:</strong> 10h00 - 17h00 (lundi a vendredi)</span></div>
+            <div class="withdrawal-policy-row"><span><strong>Montant minimum:</strong> 2 500 FCFA</span></div>
+            <div class="withdrawal-policy-row"><span><strong>Delai estime:</strong> 0 a 24h ouvrees</span></div>
+            <div class="withdrawal-policy-row"><span><strong>Numero utilise:</strong> <%= (typeof user !== 'undefined' && user && user.phone) ? user.phone : 'Numero du compte' %></span></div>
+        </div>
+
+        <form id="form-retrait" action="/user/withdrawal" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <div class="form-group">
+                <label class="form-label">Montant a retirer (FCFA) - minimum 2500</label>
+                <input type="number" class="form-input" id="withdrawal-amount" name="amount" min="2500" step="500" required>
+                <small id="withdrawal-feedback" class="withdrawal-feedback" aria-live="polite"></small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Montant que vous recevrez (apres frais)</label>
+                <input type="text" class="form-input" id="withdrawal-net" readonly>
+            </div>
+            <div class="withdrawal-summary" aria-live="polite">
+                <div class="withdrawal-summary-row"><span>Montant demande</span><strong id="wd-amount">0 FCFA</strong></div>
+                <div class="withdrawal-summary-row"><span>Frais (15%)</span><strong id="wd-fee">0 FCFA</strong></div>
+                <div class="withdrawal-summary-row total"><span>Net recu</span><strong id="wd-net">0 FCFA</strong></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Demander le Retrait</button>
+        </form>
+    </div>
+</div>
