@@ -1718,6 +1718,39 @@ body.auth-page .subtitle {
     margin: 0 auto;
 }
 
+.modal-content-deposit {
+    max-height: min(92vh, 820px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.modal-instructions-deposit {
+    font-size: 0.96rem;
+    line-height: 1.45;
+}
+
+.deposit-steps {
+    margin: 12px 0;
+    padding-left: 20px;
+}
+
+.deposit-steps li {
+    margin-bottom: 6px;
+}
+
+.deposit-important {
+    margin-top: 12px;
+    color: var(--danger);
+    line-height: 1.4;
+}
+
+#form-recharge .btn.btn-primary {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    box-shadow: 0 -6px 16px rgba(255, 255, 255, 0.9);
+}
+
 /* USSD Confirmation Styles */
 .ussd-confirmation-container {
     max-width: 500px;
@@ -2313,6 +2346,66 @@ body.auth-page .subtitle {
     .form-input {
         padding: 12px;
         min-height: 48px;
+    }
+
+    .modal-content-deposit {
+        max-height: 88vh;
+        padding: 20px 14px 16px;
+        border-radius: 16px;
+    }
+
+    .modal-content-deposit .modal-header {
+        font-size: 1.2rem;
+        margin-bottom: 14px;
+        padding-right: 22px;
+    }
+
+    .modal-instructions-deposit {
+        font-size: 0.9rem;
+        line-height: 1.35;
+    }
+
+    .deposit-steps {
+        padding-left: 18px;
+        margin: 8px 0;
+    }
+
+    .deposit-steps li {
+        margin-bottom: 4px;
+    }
+
+    .payment-methods {
+        gap: 10px;
+        margin: 14px 0;
+    }
+
+    .payment-method {
+        padding: 12px 10px;
+    }
+
+    .payment-method-logo {
+        width: 72px;
+        height: 72px;
+    }
+
+    .payment-method-name {
+        font-size: 0.85rem;
+        margin-top: 8px;
+    }
+
+    .modal-content-deposit .form-group {
+        margin-bottom: 14px;
+    }
+
+    .modal-content-deposit .form-label {
+        font-size: 0.82rem;
+        margin-bottom: 6px;
+    }
+
+    .modal-content-deposit .btn.btn-primary {
+        min-height: 50px;
+        font-size: 0.86rem;
+        letter-spacing: 0.6px;
     }
 
     .btn {
