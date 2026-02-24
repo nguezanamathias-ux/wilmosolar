@@ -29,13 +29,23 @@ app.use(helmet({
 }));
 
 // Rate limiting
-const limiter = rateLimit({
+const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: process.env.NODE_ENV === 'production' ? 200 : 5000,
-    message: 'Trop de requetes, veuillez reessayer plus tard.',
+    max: process.env.NODE_ENV === 'production' ? 30 : 5000,
+    message: 'Trop de tentatives. Veuillez reessayer plus tard.',
+    standardHeaders: true,
+    legacyHeaders: false,
     skip: () => process.env.NODE_ENV !== 'production'
 });
-app.use(limiter);
+
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: process.env.NODE_ENV === 'production' ? 300 : 5000,
+    message: 'Trop de requetes, veuillez reessayer plus tard.',
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: () => process.env.NODE_ENV !== 'production'
+});
 
 // Middlewares standards
 app.use(express.urlencoded({ extended: true }));
@@ -88,6 +98,10 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Fichiers statiques
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Apply limiters only on sensitive endpoints
+app.use(['/login', '/register'], authLimiter);
+app.use('/api', apiLimiter);
 
 // Routes
 app.use('/', require('./routes/index'));
