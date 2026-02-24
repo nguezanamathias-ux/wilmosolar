@@ -323,8 +323,8 @@ window.showUSSDConfirmation = function(depositData) {
                     1. Composez le code ci-dessus<br>
                     2. Entrez le montant : <strong id="method-amount"></strong> FCFA<br>
                     3. Confirmez la transaction<br>
-                    4. Attendez le code de confirmation<br>
-                    5. Saisissez le code recu ci-dessous
+                    4. Attendez l'ID transaction<br>
+                    5. Saisissez l'ID transaction ci-dessous
                 </div>
             </div>
 
@@ -336,8 +336,8 @@ window.showUSSDConfirmation = function(depositData) {
                 <input type="hidden" name="payment_phone" id="deposit-phone">
 
                 <div class="form-group">
-                    <label class="form-label">Code de Confirmation (du SMS)</label>
-                    <input type="text" class="form-input" name="transaction_code" placeholder="Entrez le code recu" required style="font-size: 1.1em; text-align: center; letter-spacing: 2px;">
+                    <label class="form-label">ID Transaction (du SMS)</label>
+                    <input type="text" class="form-input" name="transaction_code" placeholder="Entrez l'ID transaction" required style="font-size: 1.1em; text-align: center; letter-spacing: 2px;">
                 </div>
 
                 <div style="display: flex; gap: 10px;">
@@ -387,7 +387,7 @@ window.showUSSDConfirmation = function(depositData) {
                 2. Choisissez l'option de transfert d'argent<br>
                 3. Entrez le numero destinataire : <strong>${transferNumber}</strong><br>
                 4. Entrez le montant exact : <strong>${amountNum.toLocaleString()}</strong> FCFA<br>
-                5. Confirmez le transfert puis saisissez le code recu ci-dessous
+                5. Confirmez le transfert puis saisissez l'ID transaction ci-dessous
             `;
         } else {
             if (titleEl) titleEl.textContent = 'Composez ce code :';
@@ -395,8 +395,8 @@ window.showUSSDConfirmation = function(depositData) {
                 1. Composez le code ci-dessus<br>
                 2. Entrez le montant : <strong>${amountNum.toLocaleString()}</strong> FCFA<br>
                 3. Confirmez la transaction<br>
-                4. Attendez le code de confirmation<br>
-                5. Saisissez le code recu ci-dessous
+                4. Attendez l'ID transaction<br>
+                5. Saisissez l'ID transaction ci-dessous
             `;
         }
     }

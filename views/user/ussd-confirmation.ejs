@@ -19,7 +19,7 @@
             <p style="color: var(--text-secondary); margin-top: 10px; font-size: 0.85em;">Puis saisissez le montant : <strong><%= amount %></strong> FCFA</p>
         </div>
 
-        <h3 class="section-title">Etape 2 : Entrez votre code de confirmation</h3>
+        <h3 class="section-title">Etape 2 : Entrez votre ID transaction</h3>
 
         <form action="/user/ussd-confirm" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -30,9 +30,9 @@
 
             <div class="form-group transaction-id-field">
                 <label class="form-label"><img src="/images/icons/ticket.svg" alt="" class="label-icon"> Numero/Code de Transaction</label>
-                <input type="text" class="form-input" name="transaction_code" placeholder="Entrez le code recu par SMS" required style="font-size: 1.1em; text-align: center; letter-spacing: 2px;">
+                <input type="text" class="form-input" name="transaction_code" placeholder="Entrez l'ID transaction recu par SMS" required style="font-size: 1.1em; text-align: center; letter-spacing: 2px;">
                 <p style="color: var(--text-secondary); font-size: 0.85em; margin-top: 10px;">
-                    Ce code vous sera envoye par SMS apres votre transaction <%= method === 'orange_money' ? 'Orange Money' : 'Mobile Money' %>
+                    Cet ID transaction vous sera envoye par SMS apres votre transaction <%= method === 'orange_money' ? 'Orange Money' : 'Mobile Money' %>
                 </p>
             </div>
 
