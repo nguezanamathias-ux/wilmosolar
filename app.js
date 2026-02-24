@@ -10,6 +10,11 @@ const { startCronJobs } = require('./utils/cronJobs');
 
 const app = express();
 
+// Railway/Reverse proxy support (required for rate-limit + real client IPs)
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+}
+
 // Securite
 app.use(helmet({
     contentSecurityPolicy: {
