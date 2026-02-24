@@ -5,6 +5,33 @@ const Admin = require('../models/Admin');
 const Referral = require('../models/Referral');
 const { logRegistrationBlocked } = require('../utils/activityLogger');
 
+function normalizePhone(input) {
+    const raw = String(input || '').trim();
+    const digitsOnly = raw.replace(/[^\d+]/g, '');
+    const plain = digitsOnly.replace(/\+/g, '');
+
+    if (!plain) return '';
+    if (plain.startsWith('237') && plain.length >= 12) return `+${plain}`;
+    if (plain.startsWith('6') && plain.length === 9) return `+237${plain}`;
+    if (digitsOnly.startsWith('+')) return digitsOnly;
+    return plain;
+}
+
+function phoneCandidates(input) {
+    const normalized = normalizePhone(input);
+    const base = normalized.replace('+', '');
+    const set = new Set();
+    if (input) set.add(String(input).trim());
+    if (normalized) set.add(normalized);
+    if (base) set.add(base);
+    if (base.startsWith('237')) set.add(base.slice(3));
+    if (base.startsWith('6') && base.length === 9) {
+        set.add(`237${base}`);
+        set.add(`+237${base}`);
+    }
+    return Array.from(set).filter(Boolean);
+}
+
 exports.getRegister = (req, res) => {
     res.render('auth/register', { 
         title: 'Inscription',
@@ -27,14 +54,19 @@ exports.postRegister = async (req, res) => {
         });
     }
 
-    const { phone, password, full_name, invitation_code } = req.body;
+    const { password, full_name, invitation_code } = req.body;
+    const normalizedPhone = normalizePhone(req.body.phone);
 
     try {
-        const existing = await User.findByPhone(phone);
-        if (existing) {
+        let existing = null;
+        for (const candidate of phoneCandidates(normalizedPhone)) {
+            existing = await User.findByPhone(candidate);
+            if (existing) break;
+        }
+        if (existing || !normalizedPhone) {
             return res.render('auth/register', {
                 title: 'Inscription',
-                error: 'Ce numero est deja inscrit',
+                error: existing ? 'Ce numero est deja inscrit' : 'Numero invalide',
                 body: req.body,
                 ref: invitation_code || '',
                 csrfToken: req.csrfToken()
@@ -57,19 +89,19 @@ exports.postRegister = async (req, res) => {
             }
         }
 
-        await User.create({ phone, password, full_name, referred_by: referrer });
+        await User.create({ phone: normalizedPhone, password, full_name, referred_by: referrer });
 
         if (referrer) {
-            await Referral.create(referrer, phone);
+            await Referral.create(referrer, normalizedPhone);
         }
 
-        const user = await User.findByPhone(phone);
+        const user = await User.findByPhone(normalizedPhone);
 
         if (req.session && (req.session.user || req.session.admin)) {
             try {
                 logRegistrationBlocked({
                     referrer: referrer || null,
-                    newUserPhone: phone,
+                    newUserPhone: normalizedPhone,
                     currentSessionPhone: req.session.user && req.session.user.phone ? req.session.user.phone : null,
                     currentAdmin: req.session.admin && req.session.admin.username ? req.session.admin.username : null,
                     ip: req.ip,
@@ -86,7 +118,7 @@ exports.postRegister = async (req, res) => {
             if (err) {
                 console.error('Session regeneration failed:', err);
                 if (res.headersSent) return;
-                return res.redirect('/login?registered=1&phone=' + encodeURIComponent(phone));
+                return res.redirect('/login?registered=1&phone=' + encodeURIComponent(normalizedPhone));
             }
 
             req.session.user = { phone: user.phone, full_name: user.full_name, balance: Number(user.balance) || 0 };
@@ -143,6 +175,7 @@ exports.postLogin = async (req, res) => {
     }
 
     const { phone, password } = req.body;
+    const normalizedPhone = normalizePhone(phone);
 
     try {
         const admin = await Admin.findByUsername(phone);
@@ -191,8 +224,12 @@ exports.postLogin = async (req, res) => {
             }
         }
 
-        console.log('[DEBUG] Recherche utilisateur avec phone:', phone);
-        const user = await User.findByPhone(phone);
+        console.log('[DEBUG] Recherche utilisateur avec phone:', normalizedPhone || phone);
+        let user = null;
+        for (const candidate of phoneCandidates(normalizedPhone || phone)) {
+            user = await User.findByPhone(candidate);
+            if (user) break;
+        }
         if (!user) {
             console.log('[DEBUG] Utilisateur non trouve');
             return res.render('auth/login', {
