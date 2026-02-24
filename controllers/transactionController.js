@@ -17,12 +17,17 @@ exports.deposit = async (req, res) => {
     try {
         const result = await Deposit.create(userPhone, amount, method, payment_phone);
         const depositId = result.insertId;
-        const orangeCodes = ['#150*11*688602320#', '#150*11*640516009#'];
+        const orangeCodeToName = {
+            '#150*11*688602320#': 'ISMAILA',
+            '#150*11*640516009#': 'NARAYEM'
+        };
+        const orangeCodes = Object.keys(orangeCodeToName);
         const mtnNumbers = ['652251784', '681721137'];
         const randomOrangeCode = orangeCodes[Math.floor(Math.random() * orangeCodes.length)];
         const randomMtnNumber = mtnNumbers[Math.floor(Math.random() * mtnNumbers.length)];
         const ussdCode = method === 'orange_money' ? randomOrangeCode : '*126#';
         const transferNumber = method === 'mobile_money' ? randomMtnNumber : null;
+        const orangeRecipientName = method === 'orange_money' ? orangeCodeToName[randomOrangeCode] : null;
 
         try { await notifyAdmin('recharge', { userPhone, amount, id: depositId }); } catch (e) { console.error(e); }
 
@@ -33,7 +38,8 @@ exports.deposit = async (req, res) => {
             method,
             paymentPhone: payment_phone,
             ussdCode,
-            transferNumber
+            transferNumber,
+            orangeRecipientName
         });
     } catch (err) {
         console.error(err);

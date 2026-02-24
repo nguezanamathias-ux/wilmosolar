@@ -358,6 +358,7 @@ window.showUSSDConfirmation = function(depositData) {
     const amountNum = Number(depositData.amount) || 0;
     const isMtn = depositData.method === 'mobile_money';
     const transferNumber = String(depositData.transferNumber || '652251784');
+    const orangeRecipientName = String(depositData.orangeRecipientName || '').trim();
 
     const ussdAmountEl = document.getElementById('ussd-amount');
     const ussdCodeEl = document.getElementById('ussd-code');
@@ -394,9 +395,9 @@ window.showUSSDConfirmation = function(depositData) {
             instructionsEl.innerHTML = `
                 1. Composez le code ci-dessus<br>
                 2. Entrez le montant : <strong>${amountNum.toLocaleString()}</strong> FCFA<br>
-                3. Confirmez la transaction<br>
-                4. Attendez l'ID transaction<br>
-                5. Saisissez l'ID transaction ci-dessous
+                3. Verifiez le nom affiche : <strong>${orangeRecipientName || 'N/A'}</strong><br>
+                4. Confirmez la transaction<br>
+                5. Attendez l'ID transaction puis saisissez-le ci-dessous
             `;
         }
     }
